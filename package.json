@@ -1,0 +1,19 @@
+{
+  "name": "zapier",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "processor": "ts-node processor/index"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@nestjs/cli": "^11.0.10"
+  },
+  "dependencies": {
+    "ts-node": "^10.9.2"
+  }
+}
