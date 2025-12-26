@@ -62,7 +62,8 @@ model ZapRun {
   zap            Zap            @relation(fields: [zapId], references: [id])
   zapId          String
   zapRunOutboxes ZapRunOutbox[]
-  status         String
+  status         String         @default("pending")
+  currentStep    Int            @default(0)
 }
 
 model ZapRunOutbox {

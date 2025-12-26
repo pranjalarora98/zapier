@@ -18,12 +18,18 @@ export class HooksController {
     @Body() payload,
   ) {
     console.log('Payload received at Hooks controller:');
-    await this.prismaService.zapRun.create({
-      data: {
-        zapId: zapId,
-        status: 'pending',
-      },
+
+    this.prismaService.$transaction(async (tx) => {
+      const zapRun = await tx.zapRun.create({
+        data: {
+          zapId: zapId,
+          status: 'pending',
+        },
+      });
+
+      await tx.zapRunOutbox.create({ data: { zapRunId: zapRun.id } });
     });
+
     return { status: 'success' };
   }
 }

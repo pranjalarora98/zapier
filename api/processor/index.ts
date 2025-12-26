@@ -1,35 +1,20 @@
-// import { PrismaClient } from '@prisma/client';
+import PrismaClient from '@prisma/client';
 
-// const prismaClient = new PrismaClient();
+const prismaClient = new PrismaClient();
 
-// async function main() {
-//   try {
-//     const rows = await prismaClient.zapRunOutbox.findMany({
-//       take: 10,
-//       select: {
-//         id: true,
-//         zapRunId: true,
-//       },
-//     });
+async function main() {
+  const rows = await prismaClient.zapRunOutbox.findMany({});
 
-//     for (var i = 0; i < rows.length; i++) {
-//       console.log(rows[i].zapRunId);
-//     }
+  if (rows?.length) {
+    const ids = rows.map((row) => row.id);
+    await prismaClient.zapRunOutbox.deleteMany({
+      where: {
+        id: {
+          in: ids,
+        },
+      },
+    });
+  }
+}
 
-//     if (rows?.length) {
-//       const idsToDelete = rows.map((item) => item.id);
-
-//       const deletedRows = await prismaClient.zapRunOutbox.deleteMany({
-//         where: {
-//           id: {
-//             in: idsToDelete,
-//           },
-//         },
-//       });
-//     }
-//   } catch (err) {
-//     console.log(err);
-//   }
-// }
-
-// setInterval(() => main(), 2000);
+setInterval(() => main(), 5000);
